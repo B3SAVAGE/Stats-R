@@ -1,0 +1,38 @@
+library(Stat2Data)
+data(Diamonds)
+dim<-Diamonds
+head(dim)
+dim.lm1<-lm(TotalPrice~Carat+Depth,data=dim)
+summary(dim.lm1)
+dim.lm2<-lm(TotalPrice~Carat*Depth+I(Carat^2)+I(Depth^2),data = dim)
+summary(dim.lm2)
+anova(dim.lm1,dim.lm2)
+dim.lm3<-lm(TotalPrice~Carat*Depth+I(Carat^2),data=dim)
+summary(dim.lm3)
+dim.lm4<-step(dim.lm3)
+summary(dim.lm4)
+new<-data.frame(Carat = 0.7, Depth=60)
+predict(dim.lm3,new=new,interval="prediction")
+predict(dim.lm3)
+Residuals<-dim.lm3$residuals
+Fits<-dim.lm3$fitted.values
+plot(dim$TotalPrice~Fits,pch=19,col=12)
+myline<-lm(dim$TotalPrice~Fits)
+abline(myline,lwd=2)
+summary(myline)
+plot(Residuals~Fits,pch=19,col="red")
+abline(h=0,lwd=2)
+qqnorm(Residuals,pch=19,col="orange")
+qqline(Residuals,lwd=2)
+log.lm=lm(log(TotalPrice)~log(Carat)*Depth,data = dim)
+summary(log.lm)
+new2<-data.frame(Carat = 0.7, Depth=60)
+
+predict(log.lm,new=new2,interval="prediction")
+predict(log.lm)
+Redisuals<-log.lm$residuals
+Fits<-log.lm$fitted.values
+plot(Residuals~Fits,pch=10,col="magenta")
+abline(myline,lwd=2)
+qqnorm(Residuals,pch=19,col="orange")
+qqline(Residuals,lwd=2)

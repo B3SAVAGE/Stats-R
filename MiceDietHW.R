@@ -1,0 +1,18 @@
+library(Stat2Data)
+mice<-read.csv("/Users/Benjamin/Documents/MiceDiet.csv",header=T)
+head(mice)
+mean(mice$LIFETIME)
+tapply(mice$LIFETIME,mice$DIET,mean)
+tapply(mice$LIFETIME,mice$DIET,sd)
+boxplot(LIFETIME~DIET,data = mice,color=11,pch=19,ylab = "lifetime(days")
+mice.lm<-lm(LIFETIME~DIET,data=mice)
+summary(mice.lm)
+anova(mice.lm)
+Residuals<-mice.lm$residuals
+Fits<-mice.lm$fitted.values
+plot(Residuals~Fits,pch=19,col=12)
+abline(h=0,lwd=2)
+qqnorm(Residuals,pch=10,col=10)
+qqline(Residuals,lwd=2)
+pairwise.t.test(mice$LIFETIME,mice$DIET,p.adjust.method = "none")
+pairwise.t.test(mice$LIFETIME,mice$DIET,p.adjust.method = "bonferroni")

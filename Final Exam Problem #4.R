@@ -1,0 +1,13 @@
+library(Stat2Data)
+data(TechStocks)
+tech<-TechStocks
+head(tech)
+plot(tech$t,tech$MSFT,type="l",lwd=2)
+acf(tech$MSFT,lwd=2,col=11)
+plot(diff(tech$MSFT),type="l",lwd=2)
+acf(tech$MSFT,lwd=2,col=11)
+acf(diff(tech$MSFT),lwd=2,col=14)
+mod1<-arima(diff(tech$MSFT),order=c(1,1,1))
+summary(mod1)
+mod1
+predict(mod1,3)$pred
